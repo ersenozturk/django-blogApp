@@ -44,7 +44,8 @@ INSTALLED_APPS = [
     # my apps
     'users',
     'blog',
-    #3rd party 
+    # 3rd party
+    'crispy_forms',
 ]
 
 MIDDLEWARE = [
