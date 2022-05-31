@@ -8,21 +8,13 @@ from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
-from django.contrib.auth import logout
 
 def home(request):
-    return render(request, "users/home.html")
+    return render(request, "users/post_list.html")
 
 class HomeView(TemplateView):
     template_name = "blog/home.html"
     
-
-def user_logout(request):
-    messages.success(request, 'You succesfully logged out')
-    logout(request)
-    return redirect('home')
-
-
 
 
 # class StudentListView(ListView):
