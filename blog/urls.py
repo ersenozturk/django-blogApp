@@ -1,6 +1,11 @@
 from django.urls import path
 
+from blog.views import home
+
+
 urlpatterns = [
-    path('', user_homee, name='homee'),
+    # path('', home, name='home'),
+    
+
 
 ]
