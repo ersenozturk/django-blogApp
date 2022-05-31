@@ -7,13 +7,10 @@ from .forms import  UserForm
 from django.contrib.auth.forms import AuthenticationForm
 
 
-def user_homee(request):
-    return render(request, 'users/homee.html')
+def user_home(request):
+    return render(request, 'users/home.html')
 
-def user_logout(request):
-    messages.success(request, 'You succesfully logged out')
-    logout(request)
-    return redirect('homee')
+
 
 def  user_register(request):
     
@@ -27,7 +24,7 @@ def  user_register(request):
 
             login(request, user)
             messages.success(request, 'register done!')
-            return redirect ('homee')
+            return redirect ('home')
 
     context = {
         'form_user' : form_user,
