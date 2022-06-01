@@ -20,22 +20,34 @@ def post_list(request):
 
 
 
-
-
+# def createPost(request):
+#     form = PostForm()
+    
+#     if request.method == "POST":
+#         form = PostForm(request.POST, request.FILES)
+#         if form.is_valid():
+#             form.save()
+#             return redirect("home")
+    
+#     context = {
+#         "form" : form
+#     }
+#     return render(request, "blog/post_create.html", context)
 
 def createPost(request):
-    form = PostForm()
-    
-    if request.method == "POST":
-        form = PostForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            return redirect("home")
-    
+    form = PostForm(request.POST or None)
+    if form.is_valid():
+        postImage = form.save()
+        
+        if 'image' in request.FILES:
+            postImage.image = request.FILES.get('image')
+            postImage.save()
+        return redirect('home')
+
     context = {
-        "form" : form
+        'form' : form
     }
-    return render(request, "blog/post_create.html", context)
+    return render(request,'blog/post_create.html', context)
 
 
 def post_update(request, id):
