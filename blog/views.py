@@ -1,5 +1,3 @@
-from email import message
-from pyexpat.errors import messages
 from django.shortcuts import redirect, render
 # from .forms import StudentForm
 
@@ -8,7 +6,6 @@ from django.views.generic.list import ListView
 from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from django.urls import reverse_lazy
-from requests import request
 
 from blog.forms import PostForm
 from blog.models import Posts
