@@ -1,7 +1,10 @@
-# from django import forms
+from django import forms
+
+from blog.models import Posts
 
 
-# class StudentForm(forms.ModelForm):
-#     class Meta:
-#         model = Student
-#         fields = "__all__"
+class PostForm(forms.ModelForm):
+    class Meta:
+        model = Posts
+        fields = "__all__"
+        # exclude = ("slug",)
