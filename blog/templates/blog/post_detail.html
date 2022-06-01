@@ -1,0 +1,9 @@
+{% extends 'base.html' %}
+
+{% block container %}
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+    <h1>{{post.title}} </h1>
+    <br>
+    <a href="{% url 'update' post.id %}"><button>Update</button></a> 
+    {% comment %} <a href="{% url 'delete' post.id %}"><button>Delete</button></a> {% endcomment %}
+{% endblock container %}

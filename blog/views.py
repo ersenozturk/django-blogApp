@@ -41,21 +41,21 @@ def createPost(request):
     return render(request, "blog/post_create.html", context)
 
 
-# def student_update(request, id):
-#     student = Student.objects.get(id=id)
-#     form = StudentForm(instance=student)
+def post_update(request, id):
+    post = Posts.objects.get(id=id)
+    form = PostForm(instance=post)
     
     
-#     if request.method == "POST":
-#         form = StudentForm(request.POST, instance=student)
-#         if form.is_valid():
-#             form.save()
-#             return redirect("list")
+    if request.method == "POST":
+        form = PostForm(request.POST, instance=post)
+        if form.is_valid():
+            form.save()
+            return redirect("list")
     
-#     context = {
-#         "form" : form
-#     }
-#     return render(request, "fscohort/student_update.html", context)
+    context = {
+        "form" : form
+    }
+    return render(request, "blog/post_update.html", context)
 
 
 # def student_delete(request, id):

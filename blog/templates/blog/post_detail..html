@@ -1,8 +1,0 @@
-{% extends 'base.html' %}
-
-{% block container %}
-    {{post.title}} 
-    <br>
-    <a href="{% url 'update' post.id %}"><button>Update</button></a>
-    <a href="{% url 'delete' post.id %}"><button>Delete</button></a>
-{% endblock container %}
