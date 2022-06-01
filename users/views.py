@@ -7,8 +7,6 @@ from .forms import  UserForm
 from django.contrib.auth.forms import AuthenticationForm
 
 
-def user_home(request):
-    return render(request, 'users/home.html')
 
 def user_logout(request):
     messages.success(request, 'You succesfully logged out')
@@ -38,6 +36,7 @@ def  user_register(request):
 
 
 def user_login(request):
+    
     form = AuthenticationForm(request, data=request.POST)
     if form.is_valid():
         user = form.get_user()
@@ -45,3 +44,8 @@ def user_login(request):
         return redirect('home')
     
     return render(request, 'users/login.html', {'form':form})
+
+def user_profile(request):
+    
+    return render(request, "users/profile.html" )
+    
