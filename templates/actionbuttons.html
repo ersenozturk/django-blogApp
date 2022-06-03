@@ -35,8 +35,8 @@
     <!-- second span -->
     <span class="d-grid gap-2">
         {% if request.user == post.user %}
-        <a href="{% url 'updatepost' post.id %}" class="text-decoration-none badge bg-success">edit</a>
-        <a href="{% url 'deletepost' post.id %}" class="text-decoration-none badge bg-danger">del</a>
+        <a href="{% url 'update' post.id %}" class="text-decoration-none badge bg-success">edit</a>
+        <a href="{% url 'delete' post.id %}" class="text-decoration-none badge bg-danger">del</a> 
         {% endif %}
     </span>
 

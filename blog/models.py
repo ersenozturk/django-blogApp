@@ -15,7 +15,7 @@ class Posts(models.Model):
 
     title = models.CharField(max_length=100, unique=True)
     content = models.TextField()
-    image = models.ImageField(upload_to="posts/%Y")
+    image = models.ImageField(upload_to="posts/%Y", null=True, blank=True)
 
     publish_date = models.DateTimeField(auto_now_add=True)
     last_updated = models.DateTimeField(auto_now=True)

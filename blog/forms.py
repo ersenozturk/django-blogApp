@@ -1,7 +1,7 @@
 from django import forms
-from .models import Category, Posts, PostComment, PostView, PostLike
-from django.contrib.auth.models import User 
-from django.contrib.auth.forms import UserCreationForm
+from .models import Posts, PostComment, PostLike
+# from django.contrib.auth.models import User 
+# from django.contrib.auth.forms import UserCreationForm
 
 
 class PostForm(forms.ModelForm):
@@ -11,7 +11,6 @@ class PostForm(forms.ModelForm):
             'title',
             'content',
             'image',
-            'bg_image_url',
             'status',
             'slug',
             'category',

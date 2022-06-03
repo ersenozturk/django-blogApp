@@ -1,3 +1,4 @@
+<br><br><br><br><br><br><br><br><br><br>
 {% extends 'base.html' %}
 {% block container %}
 {% load crispy_forms_tags %}
@@ -13,10 +14,10 @@
 <h3>Fill out the form please!</h3>
 <form action="" method="post" enctype="multipart/form-data">
     {% csrf_token %} 
-    {{ form_user | crispy }}
+    {{ form | crispy }}
 
     <button type="submit" class="btn btn-danger">Register</button>
     <hr>
-    <p>Already have an acoount? <a href="login">Sign in</a></p>
+    <p>Already have an acoount? <a href="">Sign in</a></p>
 </form>
 {% endif %} {% endblock container %}

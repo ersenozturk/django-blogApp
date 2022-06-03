@@ -15,16 +15,16 @@ def user_register(request):  # ok
         form = RegisterForm(request.POST)
         if form.is_valid():
             form.save()
-            messages.success(request, f'Your account has been created. You can log in now!')
+            # messages.success(request, f'Your account has been created. You can log in now!')
             return redirect('login')
     else:
         form = RegisterForm()
-
+        
     context = {'form': form}
     return render(request, 'users/register.html', context)
 
 def user_logout(request):
-    messages.success(request, 'You succesfully logged out')
+    # messages.success(request, 'You succesfully logged out')
     logout(request)
     return redirect('home')
 
