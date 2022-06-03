@@ -1,15 +1,20 @@
-{% extends 'base.html' %}
+{% extends "base.html" %}
 
-{% block container %}
 {% load crispy_forms_tags %}
 
-<br><br><br><br><br><br><br><br><br><br>
-    <h2>Create Post</h2>
-    
-    <form action="" method="POST">
-        {% csrf_token %}                   
-        {{form | crispy}}						   
-        <input type="submit" value="Post">
-    </form>
+{% block content %}
 
-{% endblock container %}
+<div class="container py-5">
+    <h1>Create Post</h1>
+    <form action="" class="d-grid gap-4" method="post" enctype="multipart/form-data">
+
+        {% csrf_token %}
+
+        {{ form | crispy }}
+
+        <button type="submit" class="btn btn-success">SEND</button>
+    </form>
+</div>
+
+
+{%endblock content %}

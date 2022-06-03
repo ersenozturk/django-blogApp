@@ -1,18 +1,8 @@
 from django.shortcuts import render, redirect, get_object_or_404
 
-from .models import (
-    Posts,
-    Post,
-    Like,
-    Comment,
-    PostView,
-)
+from .models import Posts, PostLike, PostComment, PostView
 
-from .forms import (
-    PostForm,
-    LikeForm,
-    CommentForm
-)
+from .forms import PostForm, LikeForm, CommentForm
 
 from django.contrib import messages
 # from django.contrib.auth.forms import UserCreationForm
@@ -22,7 +12,7 @@ from django.contrib.auth.models import User
 # Create your views here.
 def post_list(request):  # ok
 
-    posts = Post.objects.filter(status='publish')
+    posts = Posts.objects.filter(status='publish')
     likeform = LikeForm()
 
     if request.method == 'POST':
@@ -32,8 +22,8 @@ def post_list(request):  # ok
                 user = User.objects.get(id=request.user.id)
                 post = Posts.objects.get(slug=request.POST['slug'])
                 # print(post)
-                b1 = Like(user=user, posts=post)
-                instance = Like.objects.filter(user=b1.user, posts=b1.posts)
+                b1 = PostLike(user=user, posts=post)
+                instance = PostLike.objects.filter(user=b1.user, posts=b1.posts)
                 if instance:
                     instance.delete()
                     # likeform = LikeForm()
@@ -53,7 +43,7 @@ def post_list(request):  # ok
     return render(request, 'post_list.html', context)
 
 
-def about(request):  # ok
+def about(request):
     return render(request, 'about.html')
 
 
@@ -85,7 +75,7 @@ def post_update(request, id):
     if not request.user.is_authenticated:
         return redirect('login')
 
-    post = Post.objects.get(pk=id)
+    post = Posts.objects.get(pk=id)
     form = PostForm(instance=post)
 
     if request.method == 'POST':
@@ -108,7 +98,7 @@ def post_delete(request, id):
     if not request.user.is_authenticated:
         return redirect('login')
 
-    post = Post.objects.get(pk=id)
+    post = Posts.objects.get(pk=id)
     form = PostForm(instance=post)
 
     if request.method == 'POST':
@@ -126,8 +116,8 @@ def post_delete(request, id):
 
 def post_detail(request, slug):
         
-    post = Post.objects.get(slug=slug)
-    comments = Comment.objects.filter(post=post.id)
+    post = Posts.objects.get(slug=slug)
+    comments = PostComment.objects.filter(post=post.id)
     commentform = CommentForm()
     likeform = LikeForm()
 
@@ -154,9 +144,9 @@ def post_detail(request, slug):
         if 'like' in request.POST:
             # print('Like request')
             user = User.objects.get(id=request.user.id)
-            post = Post.objects.get(slug=slug)
-            b1 = Like(user=user, posts=post)
-            instance = Like.objects.filter(user=b1.user, posts=b1.posts)
+            post = Posts.objects.get(slug=slug)
+            b1 = PostLike(user=user, posts=post)
+            instance = PostLike.objects.filter(user=b1.user, posts=b1.posts)
             if instance:
                 instance.delete()
             else:
@@ -169,7 +159,7 @@ def post_detail(request, slug):
             # Return an object without saving to the DB
             obj = form.save(commit=False)
             obj.user = User.objects.get(pk=request.user.id)
-            obj.post = Post.objects.get(slug=slug)
+            obj.post = Posts.objects.get(slug=slug)
 
             if form.is_valid():
                 form.save()

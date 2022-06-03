@@ -1,7 +1,5 @@
 from django import forms
-from .models import Category, Posts, PostComment, PostView, PostLike
-from django.contrib.auth.models import User 
-from django.contrib.auth.forms import UserCreationForm
+from .models import Category, Posts, PostComment, PostLike
 
 
 class PostForm(forms.ModelForm):
