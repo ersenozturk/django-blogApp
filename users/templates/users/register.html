@@ -1,5 +1,11 @@
+<<<<<<< HEAD
 {% extends "base.html" %}
 
+=======
+<br><br><br><br><br><br><br><br><br><br>
+{% extends 'base.html' %}
+{% block container %}
+>>>>>>> 53dccece7fc5de29e0235fa9c1b35687462d438f
 {% load crispy_forms_tags %}
 
 {% block content %}
@@ -25,4 +31,19 @@
     </div>
 </div>
 
+<<<<<<< HEAD
 {% endblock content %}
+=======
+{% else %}
+
+<h3>Fill out the form please!</h3>
+<form action="" method="post" enctype="multipart/form-data">
+    {% csrf_token %} 
+    {{ form | crispy }}
+
+    <button type="submit" class="btn btn-danger">Register</button>
+    <hr>
+    <p>Already have an acoount? <a href="">Sign in</a></p>
+</form>
+{% endif %} {% endblock container %}
+>>>>>>> 53dccece7fc5de29e0235fa9c1b35687462d438f

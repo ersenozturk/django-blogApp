@@ -2,7 +2,18 @@
 
 {% load crispy_forms_tags %}
 
+<<<<<<< HEAD
 {% block content %}
+=======
+<br><br><br><br><br><br><br><br><br><br>
+    <h2>Create Post</h2>
+    
+    <form action="" method="POST" enctype="multipart/form-data">
+        {% csrf_token %}                   
+        {{form | crispy}}						   
+        <input type="submit" value="Post">
+    </form>
+>>>>>>> 53dccece7fc5de29e0235fa9c1b35687462d438f
 
 <div class="container py-5">
     <h1>Create Post</h1>

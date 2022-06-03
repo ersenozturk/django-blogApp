@@ -1,6 +1,15 @@
 from django.shortcuts import render, redirect, get_object_or_404
 
+<<<<<<< HEAD
 from .models import Posts, PostLike, PostComment, PostView
+=======
+from .models import (
+    Posts,
+    PostLike,
+    PostComment,
+    PostView,
+)
+>>>>>>> 53dccece7fc5de29e0235fa9c1b35687462d438f
 
 from .forms import PostForm, LikeForm, CommentForm
 
@@ -12,8 +21,15 @@ from django.contrib.auth.models import User
 # Create your views here.
 def post_list(request):  # ok
 
+<<<<<<< HEAD
     posts = Posts.objects.filter(status='publish')
+=======
+    # posts = Posts.objects.filter(status='publish')
+    posts = Posts.objects.all()
+>>>>>>> 53dccece7fc5de29e0235fa9c1b35687462d438f
     likeform = LikeForm()
+    print(posts)
+    print(likeform)
 
     if request.method == 'POST':
         if 'like' in request.POST:
@@ -40,11 +56,16 @@ def post_list(request):  # ok
         'posts': posts,
         'likeform': likeform,
     }
-    return render(request, 'post_list.html', context)
+    return render(request, 'blog/post_list.html', context)
 
 
+<<<<<<< HEAD
 def about(request):
     return render(request, 'about.html')
+=======
+def about(request):  # ok
+    return render(request, 'blog/about.html')
+>>>>>>> 53dccece7fc5de29e0235fa9c1b35687462d438f
 
 
 
@@ -67,7 +88,7 @@ def post_create(request):
     context = {
         'form': form,
     }
-    return render(request, 'post_create.html', context)
+    return render(request, 'blog/post_create.html', context)
 
 
 
@@ -89,7 +110,7 @@ def post_update(request, id):
         'form': form,
     }
 
-    return render(request, 'post_update.html', context)
+    return render(request, 'blog/post_update.html', context)
 
 
 
@@ -109,7 +130,7 @@ def post_delete(request, id):
         'form': form,
     }
 
-    return render(request, 'post_delete.html', context)
+    return render(request, 'blog/post_delete.html', context)
 
 
 
@@ -172,4 +193,4 @@ def post_detail(request, slug):
         'likeform': likeform,
     }
 
-    return render(request, 'post_detail.html', context)
+    return render(request, 'blog/post_detail.html', context)
