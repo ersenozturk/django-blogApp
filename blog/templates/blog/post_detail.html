@@ -1,9 +1,111 @@
+
 {% extends 'base.html' %}
 
+{% load crispy_forms_tags %}
+
 {% block container %}
-<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
-    <h1>{{post.title}} </h1>
-    <br>
-    <a href="{% url 'update' post.id %}"><button>Update</button></a> 
-    {% comment %} <a href="{% url 'delete' post.id %}"><button>Delete</button></a> {% endcomment %}
+
+<div class="container my-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8 col-md-10">
+            <div class="card">
+                <div class="card-header d-flex align-items-center gap-2">
+
+                    <!-- post user top image -->
+                    <div class="d-grid justify-content-center align-items-center bg_image_url"
+                        style="width:100px; height:100px; border-radius:50%; overflow:hidden;">
+
+                        <img src="{{ post.user.profile.image.url}}" alt="" style="width:100%;" />
+                        
+                    </div>
+
+                    <table class="">
+                        <thead>
+                            <tr>
+                                <th colspan="3">
+                                    <h4 class="">{{ post.user | title }}</h4>
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody class="d-md-block d-none">
+                            <tr>
+                                <td class="badge bg-primary">Published</td>
+                                <td class="px-2">:</td>
+                                <td>
+                                    <p class="m-0 text-primary"> {{ post.publish_date | truncatechars:12}}</p>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td class="badge bg-success">Last updated</td>
+                                <td class="px-2">:</td>
+                                <td>
+                                    <p class="m-0 text-success"> {{ post.last_updated | truncatechars:12 }}</p>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                
+                <img src="{{ post.image.url }}" alt="" class="card-image-top">
+
+                <div class="card-body alert alert-warning">
+                    <h3 class="card-title py-4 text-dark text-center">{{ post.title }}</h3>
+                    <p style="text-indent: 30px;text-align: justify;" class="card-context">
+                        {{ post.content }}
+                    </p>
+                </div>
+
+                <div class="card-footer">
+                    {% include 'actionbuttons.html' %}
+                </div>
+
+                <!-- comment form -->
+                <div class="card-comments">
+                    <a class="btn btn-outline-secondary d-block mx-3" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#collapseComment" aria-expanded="false" aria-controls="collapseExample">
+                        Comment Here
+                    </a>
+                    <div class="collapse p-3" id="collapseComment">
+                        <form class="d-grid gap-4" method="post">
+                            {% csrf_token %}
+
+                            {{ commentform | crispy }}
+
+                            <button class="btn btn-outline-success w-100" name="comment">SEND</button>
+                        </form>
+                    </div>
+
+                    <!-- comments-continer -->
+                    <ul class="container pt-5">
+                        {% for comment in comments %}
+
+                        <li class="container px-3 py-2 mb-4 d-flex gap-2 border-top border-3"
+                            style="background-color: #f1f1f1">
+                            <span class="d-grid justify-content-center align-items-center bg_image_url"
+                                style="width:50px;height:50px;border-radius: 50%;overflow: hidden;background-image: url('{{ comment.user.profile.bg_image_url }}');">
+                                <img src="{{ comment.user.profile.image.url}}" alt="" style="width:100%;">
+                            </span>
+                            <div class="container px-1 bg-warningi">
+                                <div class="">
+                                    <span class="badge bg-success">
+                                        {{ comment.user.username }}
+                                    </span>
+                                    <span class="">
+                                        {{ comment.timestamp }}
+                                    </span>
+                                </div>
+                                <p class="border-top mt-2 m-2">
+                                    {{ comment.content }}
+                                </p>
+                            </div>
+                        </li>
+
+                        {% endfor %}
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
 {% endblock container %}

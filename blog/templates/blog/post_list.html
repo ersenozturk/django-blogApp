@@ -1,51 +1,14 @@
 {% extends 'base.html' %} {% block container %}
-<br /><br /><br /><br /><br /><br /><br /><br /><br /><br />
 
-{% for post in posts %}
-<div class="card shadow pb-0" style="width: 300px; min-width: 250px">
-  <!-- card image -->
-  <div style="height: 300px" class="p-1">
-    <div
-      class="bg_image_url"
-      style="height:290px;overflow:hidden;"
-    >
-      <a
-        href="{% url 'detail' post.slug %}"
-        style="height: 290px; width: 100%; display: block"
-      >
-        <img
-          src="{{ post.image.url }}"
-          alt="{{ post.slug }}"
-          class="card-image-top"
-          style="height: 290px"
-        />
-      </a>
-    </div>
-  </div>
+<div class="container-flud p-0">
+  <h2 class="text-center alert alert-primary py-4 display-3 fw-bold mb-5">- DASHBOARD -</h2>
+  <div class="container d-flex gap-4 flex-wrap  justify-content-center">
+    {% for post in posts %}
 
-  <!-- card body -->
-  <div class="card-body alert alert-success mb-0 py-0">
-    <!-- card title -->
-    <a
-      href="{% url 'postdetail' post.slug %}"
-      class="text-dark fs-5 fw-bold d-block text-center text-decoration-none w-100"
-      >{{ post.title | title }}</a
-    >
+    {% include 'postcard.html' %}
 
-    <p>
-      {{post.content|truncatechars:40}}
-      <span class="badge bg-primary">{{ post.category | title }}</span>
-      <span class="badge bg-warning">{{ post.user | title }}</span>
-    </p>
-
-    {% include './actionbuttons.html' %}
-  </div>
-
-  <div class="card-footer">
-
-    <h6>Updated : {{post.last_updated | truncatechars:12 }}</h6>
+    {% endfor %}
   </div>
 </div>
 
-{% endfor %}
- {% endblock container %}
+{% endblock container %}

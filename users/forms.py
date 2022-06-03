@@ -1,7 +1,8 @@
 from django.contrib.auth.models import User
 from django.contrib.auth.forms import UserCreationForm
-from django.db import models
 from .models import Profile
+from django.forms import ModelForm
+
 
 class UserForm(UserCreationForm):
     class Meta:
@@ -9,13 +10,10 @@ class UserForm(UserCreationForm):
         fields = ('username', 'email')
 
 
-
-#!
-
-class ProfileForm(models.ModelForm):
+class ProfileForm(ModelForm):
     class Meta:
         model = Profile
-        fields = ['image', 'bg_image_url', 'bio']
+        fields = ['image', 'bio']
 
 
 
