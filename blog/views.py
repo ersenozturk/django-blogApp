@@ -1,17 +1,17 @@
 from django.shortcuts import render, redirect, get_object_or_404
 
-<<<<<<< HEAD
-from .models import Posts, PostLike, PostComment, PostView
-=======
 from .models import (
     Posts,
     PostLike,
     PostComment,
     PostView,
 )
->>>>>>> 53dccece7fc5de29e0235fa9c1b35687462d438f
 
-from .forms import PostForm, LikeForm, CommentForm
+from .forms import (
+    PostForm,
+    LikeForm,
+    CommentForm
+)
 
 from django.contrib import messages
 # from django.contrib.auth.forms import UserCreationForm
@@ -21,12 +21,8 @@ from django.contrib.auth.models import User
 # Create your views here.
 def post_list(request):  # ok
 
-<<<<<<< HEAD
-    posts = Posts.objects.filter(status='publish')
-=======
     # posts = Posts.objects.filter(status='publish')
     posts = Posts.objects.all()
->>>>>>> 53dccece7fc5de29e0235fa9c1b35687462d438f
     likeform = LikeForm()
     print(posts)
     print(likeform)
@@ -59,13 +55,8 @@ def post_list(request):  # ok
     return render(request, 'blog/post_list.html', context)
 
 
-<<<<<<< HEAD
-def about(request):
-    return render(request, 'about.html')
-=======
 def about(request):  # ok
     return render(request, 'blog/about.html')
->>>>>>> 53dccece7fc5de29e0235fa9c1b35687462d438f
 
 
 

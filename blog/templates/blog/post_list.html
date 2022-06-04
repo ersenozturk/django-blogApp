@@ -1,33 +1,9 @@
 {% extends 'base.html' %} {% block container %}
 
-<<<<<<< HEAD
-{% for post in posts %}
-<div class="card shadow pb-0" style="width: 300px; min-width: 250px">
-  <!-- card image -->
-  <div style="height: 300px" class="p-1">
-    <div
-      
-      style="height:290px;overflow:hidden;"
-    >
-      <a
-        href="{% url 'detail' post.slug %}"
-        style="height: 290px; width: 100%; display: block"
-      >
-        <img
-          src="{{ post.image.url }}"
-          alt="{{ post.slug }}"
-          class="card-image-top"
-          style="height: 290px"
-        />
-      </a>
-    </div>
-  </div>
-=======
 <div class="container-flud p-0">
   <h2 class="text-center alert alert-primary py-4 display-3 fw-bold mb-5">- DASHBOARD -</h2>
   <div class="container d-flex gap-4 flex-wrap  justify-content-center">
     {% for post in posts %}
->>>>>>> 53dccece7fc5de29e0235fa9c1b35687462d438f
 
     {% include 'postcard.html' %}
 

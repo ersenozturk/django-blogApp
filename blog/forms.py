@@ -1,11 +1,7 @@
 from django import forms
-<<<<<<< HEAD
-from .models import Category, Posts, PostComment, PostLike
-=======
 from .models import Posts, PostComment, PostLike
 # from django.contrib.auth.models import User 
 # from django.contrib.auth.forms import UserCreationForm
->>>>>>> 53dccece7fc5de29e0235fa9c1b35687462d438f
 
 
 class PostForm(forms.ModelForm):
