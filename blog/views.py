@@ -1,187 +1,106 @@
-from django.shortcuts import render, redirect, get_object_or_404
-
-from .models import (
-    Posts,
-    PostLike,
-    PostComment,
-    PostView,
-)
-
-from .forms import (
-    PostForm,
-    LikeForm,
-    CommentForm
-)
-
+from django.shortcuts import render, redirect, get_object_or_404, HttpResponse
+from .models import Post, Like, PostView, Comment
+from .forms import PostForm, CommentForm
+from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-# from django.contrib.auth.forms import UserCreationForm
-from django.contrib.auth.models import User
 
-
-# Create your views here.
-def post_list(request):  # ok
-
-    # posts = Posts.objects.filter(status='publish')
-    posts = Posts.objects.all()
-    likeform = LikeForm()
-    print(posts)
-    print(likeform)
-
-    if request.method == 'POST':
-        if 'like' in request.POST:
-            if request.user.is_authenticated:
-                # print('Like request', request.POST)
-                user = User.objects.get(id=request.user.id)
-                post = Posts.objects.get(slug=request.POST['slug'])
-                # print(post)
-                b1 = PostLike(user=user, posts=post)
-                instance = PostLike.objects.filter(user=b1.user, posts=b1.posts)
-                if instance:
-                    instance.delete()
-                    # likeform = LikeForm()
-                    return redirect('home')
-                else:
-                    b1.save()
-                    # likeform = LikeForm()
-                    return redirect('home')
-            else:
-                return redirect('login')
-
-
+def post_list(request):
+    qs = Post.objects.filter(status='p')
     context = {
-        'posts': posts,
-        'likeform': likeform,
+        'object_list' : qs
     }
-    return render(request, 'blog/post_list.html', context)
+    return render (request, "blog/post_list.html", context )
 
-
-def about(request):  # ok
-    return render(request, 'blog/about.html')
-
-
-
-
-def post_create(request): 
-    if not request.user.is_authenticated:
-        return redirect('login')
-
+@login_required()
+def post_create(request):
+    # form = PostForm(request.POST or None, request.FILES or None)
     form = PostForm()
-
-    if(request.method == 'POST'):
+    if request.method == "POST":
         form = PostForm(request.POST, request.FILES)
-        obj = form.save(commit=False)
-        obj.user = User.objects.get(pk=request.user.id)
-
-        if(form.is_valid()):
-            form.save()
-            return redirect('home')
-
-    context = {
-        'form': form,
-    }
-    return render(request, 'blog/post_create.html', context)
-
-
-
-def post_update(request, id): 
-    if not request.user.is_authenticated:
-        return redirect('login')
-
-    post = Posts.objects.get(pk=id)
-    form = PostForm(instance=post)
-
-    if request.method == 'POST':
-        form = PostForm(request.POST, request.FILES, instance=post)
-
+        # print(request.FILES)
         if form.is_valid():
-            form.save()
-            return redirect('home')
-
+            post = form.save(commit=False)
+            post.author = request.user
+            post.save()
+            messages.success(request, "Post created successfully!")
+            return redirect("blog:list")
     context = {
-        'form': form,
+        'form' : form
     }
-
-    return render(request, 'blog/post_update.html', context)
-
-
-
-
-def post_delete(request, id):
-    if not request.user.is_authenticated:
-        return redirect('login')
-
-    post = Posts.objects.get(pk=id)
-    form = PostForm(instance=post)
-
-    if request.method == 'POST':
-        post.delete()
-        return redirect('home')
-
-    context = {
-        'form': form,
-    }
-
-    return render(request, 'blog/post_delete.html', context)
-
-
-
+    return render (request, "blog/post_create.html", context)
 
 def post_detail(request, slug):
-        
-    post = Posts.objects.get(slug=slug)
-    comments = PostComment.objects.filter(post=post.id)
-    commentform = CommentForm()
-    likeform = LikeForm()
-
-    print(request.POST)
-
-    # Post view increment
-    if not 'like' in request.POST:
-        if not 'comment' in request.POST:
-            if request.user.is_authenticated:
-                user = User.objects.get(pk=request.user.id)
-                postview = PostView(posts=post, user=user)
-                postview.save()
-            else:
-                postview= PostView(posts=post)
-                postview.save()
-
-
-    if request.method == 'POST':
-        # if not authenticate dont show another codes
-        if not request.user.is_authenticated:
-            return redirect('login')
-
-        # Like request
-        if 'like' in request.POST:
-            # print('Like request')
-            user = User.objects.get(id=request.user.id)
-            post = Posts.objects.get(slug=slug)
-            b1 = PostLike(user=user, posts=post)
-            instance = PostLike.objects.filter(user=b1.user, posts=b1.posts)
-            if instance:
-                instance.delete()
-            else:
-                b1.save()
-        # comment request
-        elif 'comment' in request.POST:
-            print('comment request')
-            form = CommentForm(request.POST)
-
-            # Return an object without saving to the DB
-            obj = form.save(commit=False)
-            obj.user = User.objects.get(pk=request.user.id)
-            obj.post = Posts.objects.get(slug=slug)
-
-            if form.is_valid():
-                form.save()
-                form = CommentForm()
-
+    # comment = Comment.objects.all( )
+    # kim = request.user
+    form = CommentForm()
+    obj = get_object_or_404(Post, slug=slug)
+    # like_qs = Like.objects.filter(user=request.user, post=obj)
+    if request.user.is_authenticated:
+        PostView.objects.get_or_create(user=request.user, post=obj)
+    if request.method == "POST":
+        form = CommentForm(request.POST)
+        if form.is_valid:
+            comment = form.save(commit=False)
+            comment.user = request.user
+            comment.post = obj
+            comment.save()
+            return redirect("blog:detail", slug=slug)
+            # return redirect(request.path)
     context = {
-        'post': post,
-        'comments': comments,
-        'commentform': commentform,
-        'likeform': likeform,
+        'object' : obj,
+        "form" : form,
+        # "like_qs" : like_qs,
+        # 'kitap' : comment,
+        # 'kim': kim
     }
+    return render(request, "blog/post_detail.html", context)
 
-    return render(request, 'blog/post_detail.html', context)
+@login_required()
+def post_update(request, slug):
+    obj = get_object_or_404(Post, slug=slug)
+    form = PostForm(request.POST or None, request.FILES or None, instance=obj)
+    if request.user.id != obj.author.id:
+        # return HttpResponse("You are not authorized!")
+        messages.warning(request, "You are not a writer of this post !")
+        return redirect("blog:list")
+    if form.is_valid():
+        form.save()
+        messages.success(request, "Post updated !!")
+        return redirect("blog:list")
+    context = {
+        "object" : obj,
+        "form" : form
+    }
+    return render(request, "blog/post_update.html", context)
+
+@login_required()
+def post_delete(request, slug):
+    obj = get_object_or_404(Post, slug=slug)
+    if request.user.id != obj.author.id:
+        # return HttpResponse("You are not authorized!")
+        messages.warning(request, "You are not a writer of this post !")
+        return redirect("blog:list")
+    if request.method == "POST":
+        obj.delete()
+        messages.success(request, "Post deleted !!")
+        return redirect("blog:list")
+    
+    context = {
+        "object" : obj
+    }
+    return render(request, "blog/post_delete.html", context)
+
+@login_required()
+def like(request, slug):
+    if request.method == "POST":
+        obj = get_object_or_404(Post, slug=slug)
+        like_qs = Like.objects.filter(user=request.user, post=obj)
+        if like_qs.exists():
+            like_qs[0].delete()
+        else:
+            Like.objects.create(user=request.user, post=obj)
+        return redirect("blog:detail", slug=slug)
+    return redirect("blog:detail", slug=slug)
+
+
+       

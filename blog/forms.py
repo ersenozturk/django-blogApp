@@ -1,32 +1,21 @@
 from django import forms
-from .models import Posts, PostComment, PostLike
-# from django.contrib.auth.models import User 
-# from django.contrib.auth.forms import UserCreationForm
-
+from .models import Post, Comment, Category
 
 class PostForm(forms.ModelForm):
+    status = forms.ChoiceField(choices=Post.OPTIONS)
+    category = forms.ModelChoiceField(queryset=Category.objects.all(), empty_label="Select")
     class Meta:
-        model = Posts
-        fields = [
+        model = Post
+        fields = (
             'title',
             'content',
             'image',
-            'status',
-            'slug',
             'category',
-        ]
-
-
-
-class LikeForm(forms.ModelForm):
-    class Meta:
-        model = PostLike
-        fields = [
-            # 'user', 
-            # 'posts'
-            ]
-
+            'status',
+        )
+        
 class CommentForm(forms.ModelForm):
     class Meta:
-        model = PostComment
-        fields = ['content']
+        model = Comment
+        fields = ('content',)
+        
